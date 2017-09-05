@@ -1,0 +1,65 @@
+<div id=top-image-container>
+    <img src="{{profiles.backimg}}" id="top-image">
+</div>
+
+
+<div id="main-container">
+        <div class="card" id="card-info">
+            <div id="profile-image-container">
+                <img class="card-img-top" src="{{profiles.profimg}}" alt="Card image cap" id="profile-image">
+            </div>
+            <div class="card-block">
+                <h4 class="card-title">{{profiles.name}}</h4>
+                <p class="card-text">{{profiles.status}}</p>
+                <button (click)="toggleStatuschange()">{{showStatuschange ? "Hide" : "Change status"}}</button><br />
+                <div *ngIf="showStatuschange"><hr>
+                    <label>Change status:(if you dont want to change something leave empty) </label><br /><hr>
+                    <input id="inputtop" class="statusbox" type="text" placeholder="Enter New Top Image Url" #inputTopImg><br /><br />
+                    <input id="inputproimg" class="statusbox" type="text" placeholder="Enter New Profile Image Url" #inputProfImg><br /><br />
+                    <textarea id="inputstat" class="statusbox" type="text" placeholder="Write a New Status" #inputStatus></textarea><br /><br />
+                    <button class="btn btn-secondary" type="button" (click)="changeProfile(inputTopImg.value, inputProfImg.value, inputStatus.value)">Apply</button>
+                 </div>
+            </div>
+        </div>
+        
+        <div id ="card-post">
+            <div class="card">
+                <div class="card-block">
+                    <input id="input1" class="comentbox" type="text" placeholder="Enter Image Url" #inputImg><br /><br />
+                    <textarea id="input2" class="comentbox" type="text" placeholder="Write a Comment"  #inputComment ></textarea><br /><br />
+                    
+                    <button class="btn btn-secondary" type="button" (click)="addPost(inputImg.value, inputComment.value)">+ Add Post</button>
+                </div>
+            </div>
+
+            <div class="card" *ngFor="let post of profiles.tposts; let i = index">
+                <div class="deletebtncont">
+                    <a href="javascript:void(0)" class="deletebtn" (click)="deletePost(i)">&times;</a> 
+                </div>
+                <div class="card-block">
+                    <div class="card-image">
+                        <img class="card-img-top" src="{{post.image}}" onerror="if (this.src != 'error.jpg') this.src = 'images/No_image.png';" alt="Card image cap">
+                    </div>
+                    <p class="card-text">{{post.body}}</p>
+                    
+                    <button type="button" class="btn btn-default btn-sm" (click)="toggleComments(i)">
+                         <i class="fa fa-comment" aria-hidden="true"></i> {{profiles.tposts[i].showComments ? "Hide Comments" : "Show Comments"}}({{profiles.tposts[i].comments.length}})
+                    </button>
+                    
+                    <button type="button" class="btn btn-default btn-sm"  (click)="likePost(i)">
+                         <i class="fa fa-thumbs-up" aria-hidden="true"></i> Like({{profiles.tposts[i].likes}})
+                    </button><br /><br />
+                    
+                    <div *ngIf="profiles.tposts[i].showComments">
+                        <textarea id="inputcom" class="comentbox" type="text" placeholder="Write a Comment"  #inputpostComment ></textarea><br />
+                        <button class="btn btn-secondary" id="btncom" type="button" (click)="addComment(inputpostComment.value, i)">Submit</button><br /><hr> 
+                        <h4>Comments:</h4><hr>
+                        <div *ngFor="let comment of profiles.tposts[i].comments" class="commentText" >
+                            <p class="">{{comment}}</p><hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+</div>
